@@ -20,7 +20,7 @@ private:
     double a;
     double b;
 public:
-    Interval(double a, double b) a(a), b(b) {};
+    Interval(double a, double b) : a(a), b(b) {};
 
-}
+};
 
