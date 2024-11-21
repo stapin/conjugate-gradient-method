@@ -1,5 +1,6 @@
 #include <vector>
 #include <exception>
+#include <memory>
 // Будем делать градиент аналитическим, поэтому для каждой функции будем делать класс
 // и переопределять метод с градиентом.
 
@@ -67,21 +68,65 @@ public:
         return result;
     }
 
+    size_t get_dim() const override {
+        return 1;
+    }
+
 };
 
 
-class OneDimentionalFunction : public Function<double> {
-    double (*function)(double);
+// class OneDimentionalFunction : public Function<double> {
+//     double (*function)(double);
+// public:
+//     OneDimentionalFunction(double (*function)(double)) : 
+//         Function(1), function(function) {}
+
+//     double operator()(const double& x) const override {
+//         return function(x);
+//     }
+
+//     double get_gradient(const double& x) const override {
+//         throw std::exception("OneDimentionalFunction get_gradient not implemented");
+//     }
+
+// };
+
+class AuxiliaryFunction : public Function<double> {
+    std::vector<double> x;
+    std::vector<double> v;
+    std::shared_ptr<Function<>> func;    
+
 public:
-    OneDimentionalFunction(double (*function)(double)) : 
-        Function(1), function(function) {}
+    AuxiliaryFunction(std::vector<double> x, std::vector<double> v, const std::shared_ptr<Function<>>& func) :
+        x(std::move(x)), v(std::move(v)), Function(1), func(func) {}
 
-    double operator()(const double& x) const override {
-        return function(x);
+    double operator()(const double& alpha) const override {
+        std::vector<double> res;
+        res.reserve(x.size());
+        for (size_t i = 0; i < x.size(); ++i) {
+            res.push_back(x[i] + alpha* v[i]);
+        }
+        return (*func)(res);
     }
 
-    double get_gradient(const double& x) const override {
-        throw std::exception("OneDimentionalFunction get_gradient not implemented");
-    }
+    double get_gradient(const double& alpha) const override {
+        //throw std::exception("not implemented");
+        std::vector<double> point;
+        point.reserve(x.size());
+        for (size_t i = 0; i < x.size(); ++i) {
+            point.push_back(x[i] + alpha* v[i]);
+        }
+        std::vector<double> grad = func->get_gradient(point);
+        double res = 0;
+        for (size_t i = 0; i < grad.size(); ++i) {
+            res += grad[i] * v[i];
+        }
+        
+        return res;
+    };
 
+    void set_vectors(std::vector<double> x0, std::vector<double> v) {
+        x0 = std::move(x0);
+        v = std::move(v);
+    }
 };
