@@ -11,7 +11,7 @@ protected:
 public:
     Function(size_t dim) : dim(dim) {};
 
-    virtual size_t get_dim() const;
+    virtual size_t get_dim() const {return dim;};
     virtual double operator()(const T& x) const = 0;
     virtual T get_gradient(const T& x) const = 0;
 };
@@ -73,23 +73,6 @@ public:
     }
 
 };
-
-
-// class OneDimentionalFunction : public Function<double> {
-//     double (*function)(double);
-// public:
-//     OneDimentionalFunction(double (*function)(double)) : 
-//         Function(1), function(function) {}
-
-//     double operator()(const double& x) const override {
-//         return function(x);
-//     }
-
-//     double get_gradient(const double& x) const override {
-//         throw std::exception("OneDimentionalFunction get_gradient not implemented");
-//     }
-
-// };
 
 class AuxiliaryFunction : public Function<double> {
     std::vector<double> x;

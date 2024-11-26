@@ -1,8 +1,8 @@
+#include <memory>
+
 #include "area.hpp"
 #include "function.hpp"
 #include "stop_criterion.hpp"
-#include <memory>
-#include <numbers>
 
 template <typename T = std::vector<double>>
 class OptimizationMethod {
@@ -77,7 +77,7 @@ public:
         OptimizationMethod(area, function, criterion) {}
 
     std::vector<double> optimize() override {
-        std::vector<double> x0;
+        std::vector<double> x0( function->get_dim(), 0.5);
         std::vector<double> xn = x0;
         std::vector<double> p0 = function->get_gradient(x0);
         std::vector<double> pn = p0;
@@ -124,5 +124,6 @@ public:
 
         }
 
+        return xn;
     }
 };

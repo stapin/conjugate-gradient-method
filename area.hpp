@@ -10,7 +10,7 @@ class Area
 private:
     
 public:
-    Area();
+    Area() = default;
 
     bool is_out_of_bounds(V x);
     // Или сделать расстояние от точки до множества
@@ -18,14 +18,14 @@ public:
     virtual double intersect(const V& x0, const V& v) const = 0;
     virtual std::vector<std::pair<double, double>> get_bounding_box() const = 0;
 
-    ~Area();
+    virtual ~Area() = default;
     
 };
 
 template<>
 class Area<double> {
 public:
-    bool is_out_of_bounds(double x);
+    //bool is_out_of_bounds(double x);
     // Или сделать расстояние от точки до множества
 
     virtual double intersect(double x0, double v) const = 0;
@@ -73,5 +73,9 @@ public:
         }
         return res;
     }
+
+    virtual std::vector<std::pair<double, double>> get_bounding_box() const {
+        return std::vector<std::pair<double, double>>({std::pair<double, double>(1, 2)});
+    }    
 };
 
