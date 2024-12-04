@@ -10,10 +10,10 @@ int main() {
     //QuadraticForm func(A);
     //std::cout << "1 dim: " << func.get_dim() << "\n";
     // Func1 func;
-    // Func2 func;
-    Func3 func;
-    std::vector<double> left = {-5, -5};
-    std::vector<double> right = {0, -3};
+    Func2 func;
+    // Func3 func;
+    std::vector<double> left = {-3, -2};
+    std::vector<double> right = {0, 2};
 
     Rectangle area(left, right);
     IterationCriterion criterion(10);
