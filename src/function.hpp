@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <exception>
 #include <memory>
@@ -12,6 +14,7 @@ protected:
     size_t dim;
 public:
     Function(size_t dim) : dim(dim) {};
+    virtual ~Function() = default;
 
     virtual size_t get_dim() const {return dim;};
     virtual double operator()(const T& x) const = 0;
@@ -23,25 +26,13 @@ class LinearFunction : public Function<> {
 private:
     std::vector<double> coeffs;
 public:
-    LinearFunction(std::vector<double> coeffs) :
-        Function(coeffs.size()),
-        coeffs(std::move(coeffs)) {} 
+    LinearFunction(std::vector<double> coeffs);
 
-    double operator()(const std::vector<double>& x) const override {
-        double result = 0;
-        for (size_t i=0; i < coeffs.size(); ++i) {
-            result += coeffs[i] * x[i];
-        }
-        return result;
-    }
+    double operator()(const std::vector<double>& x) const override;
 
-    std::vector<double> get_gradient(const std::vector<double>& x) const override {
-        return coeffs;
-    }
+    std::vector<double> get_gradient(const std::vector<double>& x) const override;
 
-    std::shared_ptr<Function> create_instance() const override {
-        return std::make_shared<LinearFunction>(*this);
-    }
+    std::shared_ptr<Function> create_instance() const override;
 
 };
 
@@ -106,39 +97,14 @@ private:
     Mat A;
 
 public:
-    QuadraticForm(Mat A) : Function(A.size()), A(A) {
-        std::cout << "Quad constructor, dim: " << dim << "\n";
-    };
+    QuadraticForm(Mat A);
     
-    double operator()(const std::vector<double>& x) const override {
-        double result = 0;
-        for (int i = 0; i < A.size(); ++i) {
-            double tmp = 0;
-            for (int j = 0; j < x.size(); ++j) {
-                tmp += x[j] * A[i][j];
-            }
-            result += x[i] * tmp;
-        }
-        return result;
-    }
+    double operator()(const std::vector<double>& x) const override;
 
-    std::vector<double> get_gradient(const std::vector<double>& x) const override {
-        std::vector<double> result(A.size());
-        //std::cout << "A.size " << A.size() << " x.size " << x.size() << "\n";
-        for (int i = 0; i < A.size(); ++i) {
-            for (int j = 0; j < x.size(); ++j) {
-                result[i] += x[j] * (A[i][j] + A[j][i]);
-                // std::cout << "i:" << i << " j:" << j << " res: " << result[i] << " x[j]: "<< x[j] <<
-                // " Aij: " << A[i][j] << " Aji: " << A[j][i] << "\n";
-            }
-        }
-        return result;
-    }
+    std::vector<double> get_gradient(const std::vector<double>& x) const override;
 
 
-    std::shared_ptr<Function> create_instance() const override {
-        return std::make_shared<QuadraticForm>(*this);
-    }
+    std::shared_ptr<Function> create_instance() const override;
 
 };
 
@@ -148,89 +114,35 @@ class AuxiliaryFunction : public Function<double> {
     std::shared_ptr<Function<>> func;    
 
 public:
-    AuxiliaryFunction(std::vector<double> x, std::vector<double> v, const std::shared_ptr<Function<>>& func) :
-        x(std::move(x)), v(std::move(v)), Function(1), func(func) {}
+    AuxiliaryFunction(std::vector<double> x, std::vector<double> v, const std::shared_ptr<Function<>>& func);
 
-    double operator()(const double& alpha) const override {
-        std::vector<double> res;
-        res.reserve(x.size());
-        for (size_t i = 0; i < x.size(); ++i) {
-            res.push_back(x[i] + alpha* v[i]);
-        }
-        return (*func)(res);
-    }
+    double operator()(const double& alpha) const override;
 
-    double get_gradient(const double& alpha) const override {
-        //throw std::exception("not implemented");
-        std::vector<double> point;
-        point.reserve(x.size());
-        for (size_t i = 0; i < x.size(); ++i) {
-            point.push_back(x[i] + alpha* v[i]);
-        }
-        std::vector<double> grad = func->get_gradient(point);
-        double res = 0;
-        for (size_t i = 0; i < grad.size(); ++i) {
-            res += grad[i] * v[i];
-        }
-        
-        return res;
-    };
+    double get_gradient(const double& alpha) const override;
 
-    void set_vectors(std::vector<double> x0, std::vector<double> v0) {
-        x = std::move(x0);
-        v = std::move(v0);
-    }
+    void set_vectors(std::vector<double> x0, std::vector<double> v0);
 
-    std::shared_ptr<Function> create_instance() const override {
-        return std::make_shared<AuxiliaryFunction>(*this);
-    }
+    std::shared_ptr<Function> create_instance() const override;
 };
 
 
 class Func4 : public Function<double> {
 public:
-    Func4() : Function(1) {}
+    Func4();
 
-    double operator()(const double& x) const override {
-        return std::sin(x);
-    }
+    double operator()(const double& x) const override;
 
-    double get_gradient(const double& x) const override {
-        return std::cos(x);
-    }
+    double get_gradient(const double& x) const override;
 
-    std::shared_ptr<Function> create_instance() const override {
-        return std::make_shared<Func4>(*this);
-    }
+    std::shared_ptr<Function> create_instance() const override;
 };
 
 class Poly1 : public Function<double> {
 public:
-    Poly1() : Function(1) {}
-    double operator()(const double& x) const override {
-        return (x - 3.5) * (x + 1) * (x - 1);
-    }
+    Poly1();
+    double operator()(const double& x) const override;
 
-    double get_gradient(const double& x) const override {
-        return 3 * x*x - 7 * x - 1;
-    }
+    double get_gradient(const double& x) const override;
 
-    std::shared_ptr<Function> create_instance() const override {
-        return std::make_shared<Poly1>(*this);
-    }
+    std::shared_ptr<Function> create_instance() const override;
 };
-
-// class Sin1 : public Function<double> {
-//     Sin1() : Function(1) {}
-//     double operator()(const double& x) const override {
-//         return std::sin(x);
-//     }
-
-//     double get_gradient(const double& x) const override {
-//         return std:;
-//     }
-
-//     std::shared_ptr<Function> create_instance() const override {
-//         return std::make_shared<Poly1>(*this);
-//     }
-// }

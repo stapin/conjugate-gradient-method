@@ -9,8 +9,11 @@ set(SRC_LIST
     src/function.cpp
     src/function.hpp
     src/optimization_method.hpp
+    src/optimization_method.cpp
     src/stop_criterion.hpp
+    src/stop_criterion.cpp
     src/Vector.hpp
+    src/Vector.cpp
     src/main.cpp
 )
 

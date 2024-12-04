@@ -1,9 +1,8 @@
 #include "optimization_method.hpp"
 
 OneDimentionalOptimization::OneDimentionalOptimization(
-    double epsilon,
-    size_t n
-) : epsilon(epsilon), n(n) {}
+    double epsilon
+) : epsilon(epsilon) {}
 
 double OneDimentionalOptimization::optimize(const Area<double>& area, const Function<double>& func, const Criterion& criterion) {
     std::pair<double, double> bounds = area.get_bounding_box();
