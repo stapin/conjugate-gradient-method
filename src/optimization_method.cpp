@@ -27,7 +27,9 @@ std::vector<double> ConjugateGradientMethod::optimize(
     const Criterion& criterion
 ) 
 {
-    std::vector<double> x0 = area.sample_random_point();
+    std::random_device device;
+    std::mt19937 gen(device());
+    std::vector<double> x0 = area.sample_random_point(gen);
 
     std::vector<double> xn = x0;
     std::vector<double> p0 = func.get_gradient(x0);
@@ -75,5 +77,41 @@ std::vector<double> ConjugateGradientMethod::optimize(
 
     }
 
+    return xn;
+}
+
+std::vector<double> RandomSearch::optimize(const Area<>& area, const Function<>& func, const Criterion& criterion) {
+    std::random_device device;
+    std::mt19937 gen(device());
+    std::uniform_real_distribution dist(0., 1.);
+
+    std::vector<double> xn = area.sample_random_point(gen);
+    
+    std::vector<double> y;
+    double delta = delta0;
+    std::vector<std::vector<double>> trajectory;
+    trajectory.push_back(xn);
+    size_t same_point_counter = 0;
+
+    size_t iters = 0;
+    while (!criterion.done(trajectory)) {
+        if (iters >= max_iters) break;
+        double alpha = dist(gen);
+        bool neighborhood = false;
+        if (alpha < p) {
+            y = area.sample_random_point(gen);
+        } else {
+            y = area.intersect_cube(Cube(xn, delta, true)).sample_random_point(gen);
+            neighborhood = true;
+        }
+        if (func(y) < func(xn)) {
+            trajectory.push_back(y);
+            xn = y;
+            if (neighborhood) delta = alpha * delta;
+            same_point_counter = 0;
+        } else {
+            ++same_point_counter;
+        }
+    }
     return xn;
 }

@@ -25,7 +25,18 @@ public:
 };
 
 class ConjugateGradientMethod : public OptimizationMethod<> {
-
 public:
     std::vector<double> optimize(const Area<>& area, const Function<>& func, const Criterion& criterion) override;
+};
+
+class RandomSearch : public OptimizationMethod<> {
+public:
+    RandomSearch(double delta0, double p, size_t max_iters) : 
+        delta0(delta0), p(p), max_iters(max_iters) {};
+    std::vector<double> optimize(const Area<>& area, const Function<>& func, const Criterion& criterion) override;
+
+private:
+    double delta0;
+    double p;
+    size_t max_iters;
 };

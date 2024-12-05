@@ -114,3 +114,35 @@ double Poly1::get_gradient(const double& x) const {
 std::shared_ptr<Function<double>> Poly1::create_instance() const {
     return std::make_shared<Poly1>(*this);
 }
+
+std::string LinearFunction::get_name() const {
+    return "Arbitrary linear f  unction";
+}
+
+std::string Func1::get_name() const {
+    return "(x + 1)(y - 1)";
+}
+
+std::string Func2::get_name() const {
+    return "sin(x)cos(y)";
+}
+
+std::string Func3::get_name() const {
+    return "sin(x) + cos(y)";
+}
+
+std::string QuadraticForm::get_name() const {
+    return "Arbitrary quadratic form";
+}
+
+std::string AuxiliaryFunction::get_name() const {
+    return "Auxiliary function";
+}
+
+std::string Func4::get_name() const {
+    return "sin(x)";
+}
+
+std::string Poly1::get_name() const {
+    return "(x - 3.5)(x - 1)(x + 1)";
+}

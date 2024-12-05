@@ -5,6 +5,7 @@
 #include <memory>
 #include <iostream>
 #include <cmath>
+#include <string>
 // Будем делать градиент аналитическим, поэтому для каждой функции будем делать класс
 // и переопределять метод с градиентом.
 
@@ -20,6 +21,7 @@ public:
     virtual double operator()(const T& x) const = 0;
     virtual T get_gradient(const T& x) const = 0;
     virtual std::shared_ptr<Function> create_instance() const = 0;
+    virtual std::string get_name() const = 0;
 };
 
 class LinearFunction : public Function<> {
@@ -33,7 +35,7 @@ public:
     std::vector<double> get_gradient(const std::vector<double>& x) const override;
 
     std::shared_ptr<Function> create_instance() const override;
-
+    std::string get_name() const override;
 };
 
 class Func1 : public Function<> {
@@ -52,7 +54,7 @@ public:
         return std::make_shared<Func1>(*this);
     }
 
-
+    std::string get_name() const override;
 };
 
 class Func2 : public Function<> {
@@ -70,6 +72,8 @@ public:
     std::shared_ptr<Function> create_instance() const override {
         return std::make_shared<Func2>(*this);
     }
+
+    std::string get_name() const override;
 };
 
 
@@ -88,6 +92,8 @@ public:
     std::shared_ptr<Function> create_instance() const override {
         return std::make_shared<Func3>(*this);
     }
+
+    std::string get_name() const override;
 };
 
 using Mat = std::vector<std::vector<double>>;
@@ -106,6 +112,7 @@ public:
 
     std::shared_ptr<Function> create_instance() const override;
 
+    std::string get_name() const override;
 };
 
 class AuxiliaryFunction : public Function<double> {
@@ -123,6 +130,8 @@ public:
     void set_vectors(std::vector<double> x0, std::vector<double> v0);
 
     std::shared_ptr<Function> create_instance() const override;
+
+    std::string get_name() const override;
 };
 
 
@@ -135,6 +144,8 @@ public:
     double get_gradient(const double& x) const override;
 
     std::shared_ptr<Function> create_instance() const override;
+
+    std::string get_name() const override;
 };
 
 class Poly1 : public Function<double> {
@@ -145,4 +156,6 @@ public:
     double get_gradient(const double& x) const override;
 
     std::shared_ptr<Function> create_instance() const override;
+
+    std::string get_name() const override;
 };

@@ -14,8 +14,11 @@ int main() {
     // Func3 func;
     std::vector<double> left = {-3, -2};
     std::vector<double> right = {0, 2};
+    std::vector<std::pair<double, double>> bounds = {
+        {-3, -2}, {0, 2}
+    };
 
-    Rectangle area(left, right);
+    Rectangle area(bounds);
     IterationCriterion criterion(10);
 
     ConjugateGradientMethod optim;
