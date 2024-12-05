@@ -5,66 +5,22 @@
 #include <random>
 #include <iostream>
 
-template <typename V = std::vector<double>>
-class Area
-{
-private:
-    
-public:
-    Area() = default;
-
-
-    virtual double intersect(const V& x0, const V& v) const = 0;
-    virtual const std::vector<std::pair<double, double>>& get_bounding_box() const = 0;
-    virtual V sample_random_point(std::mt19937& gen) const = 0;
-    virtual Rectangle intersect_cube(const Cube& other) const = 0;
-
-    virtual ~Area() = default;
-    
-};
-
-template<>
-class Area<double> {
-public:
-    virtual double intersect(double x0, double v) const = 0;
-    virtual std::pair<double, double> get_bounding_box() const = 0;
-    virtual double sample_random_point(std::mt19937& gen) const = 0;
-
-};
-
-class Interval : public Area<double> {
-private:
-    double a;
-    double b;
-public:
-    Interval(double a, double b) : a(a), b(b) {};
-    Interval() : a(0), b(0) {}
-
-    double intersect(double x0, double v) const override;
-
-    void set_bounds(double left, double right);
-
-    virtual std::pair<double, double> get_bounding_box() const override;
-
-    double sample_random_point(std::mt19937& gen) const override;
-
-};
-
-class Rectangle : public Area<> {
+class Rectangle {
 protected:
     std::vector<std::pair<double, double>> bounds;
 
 public:
     Rectangle() = default;
     Rectangle(std::vector<std::pair<double, double>> bounds);
+    virtual ~Rectangle() = default;
 
-    double intersect(const std::vector<double>& x0, const std::vector<double>& v) const override;
+    virtual double intersect(const std::vector<double>& x0, const std::vector<double>& v) const;
 
-    const std::vector<std::pair<double, double>>& get_bounding_box() const override;
+    virtual const std::vector<std::pair<double, double>>& get_bounding_box() const;
 
-    std::vector<double> sample_random_point(std::mt19937& gen) const override;
+    virtual std::vector<double> sample_random_point(std::mt19937& gen) const;
 
-    Rectangle intersect_cube(const Cube& other) const override{
+    Rectangle intersect_rectangle(const Rectangle& other) const {
         if (other.bounds.size() != bounds.size())
             throw "Rectangle sizes are incompatible";
         std::vector<std::pair<double, double>> res;
@@ -80,10 +36,20 @@ public:
         return Rectangle(std::move(res));
     }
 
+
     bool is_empty() {
         if (bounds.size()) return false;
         return true;
     }
+};
+
+class Interval : public Rectangle {
+public:
+    Interval(double a, double b) : Rectangle({{a, b}}) {};
+    Interval() : Rectangle({{0, 0}}) {}
+
+    void set_bounds(double left, double right);
+
 };
 
 class Cube : public Rectangle {

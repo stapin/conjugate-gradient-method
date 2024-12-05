@@ -1,21 +1,7 @@
 #include "area.hpp"
 
-double Interval::intersect(double x0, double v) const {
-    return std::max((b - x0) / v, (a - x0) / v);
-}
-
 void Interval::set_bounds(double left, double right) {
-    a = left;
-    b = right;
-}
-
-std::pair<double, double> Interval::get_bounding_box() const {
-    return std::pair<double, double>(a, b);
-}
-
-double Interval::sample_random_point(std::mt19937& gen) const  {
-    std::uniform_real_distribution<> dist(a, b);
-    return dist(gen);
+    bounds = {{left, right}};
 }
 
 

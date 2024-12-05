@@ -15,7 +15,7 @@ int main() {
     std::vector<double> left = {-3, -2};
     std::vector<double> right = {0, 2};
     std::vector<std::pair<double, double>> bounds = {
-        {-3, -2}, {0, 2}
+        {-3, -1}, {-1, 1}
     };
 
     Rectangle area(bounds);

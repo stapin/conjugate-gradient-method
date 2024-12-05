@@ -4,25 +4,25 @@ OneDimentionalOptimization::OneDimentionalOptimization(
     double epsilon
 ) : epsilon(epsilon) {}
 
-double OneDimentionalOptimization::optimize(const Area<double>& area, const Function<double>& func, const Criterion& criterion) {
-    std::pair<double, double> bounds = area.get_bounding_box();
+std::vector<double> OneDimentionalOptimization::optimize(const Rectangle& area, const Function<>& func, const Criterion& criterion) {
+    std::pair<double, double> bounds = area.get_bounding_box()[0];
     double ri = bounds.second;
     double li = bounds.first;
     while (ri - li > epsilon) {
         double mi = (li + ri) / 2;
-        double derivative = func.get_gradient(mi);
+        double derivative = func.get_gradient({mi})[0];
         if (derivative < 0) {
             li = mi;
         } else {
             ri = mi;
         }
     }
-    return (li + ri) / 2;
+    return {(li + ri) / 2};
     
 }
 
 std::vector<double> ConjugateGradientMethod::optimize(
-    const Area<>& area, 
+    const Rectangle& area, 
     const Function<>& func, 
     const Criterion& criterion
 ) 
@@ -50,7 +50,7 @@ std::vector<double> ConjugateGradientMethod::optimize(
 
 
         function.set_vectors(xn, pn);
-        double alpha_n = optim_method.optimize(interval, function, criterion);
+        double alpha_n = optim_method.optimize(interval, function, criterion)[0];
 
 
         std::vector<double> fn_grad = func.get_gradient(xn);
@@ -80,13 +80,14 @@ std::vector<double> ConjugateGradientMethod::optimize(
     return xn;
 }
 
-std::vector<double> RandomSearch::optimize(const Area<>& area, const Function<>& func, const Criterion& criterion) {
+std::vector<double> RandomSearch::optimize(const Rectangle& area, const Function<>& func, const Criterion& criterion) {
     std::random_device device;
     std::mt19937 gen(device());
-    std::uniform_real_distribution dist(0., 1.);
+    std::uniform_real_distribution<double> dist(0., 1.);
 
     std::vector<double> xn = area.sample_random_point(gen);
     
+    //const std::vector<std::pair<double, double>>& D_bounds = area.get_bounding_box();
     std::vector<double> y;
     double delta = delta0;
     std::vector<std::vector<double>> trajectory;
@@ -101,7 +102,7 @@ std::vector<double> RandomSearch::optimize(const Area<>& area, const Function<>&
         if (alpha < p) {
             y = area.sample_random_point(gen);
         } else {
-            y = area.intersect_cube(Cube(xn, delta, true)).sample_random_point(gen);
+            y = area.intersect_rectangle(Cube(xn, delta, true)).sample_random_point(gen);
             neighborhood = true;
         }
         if (func(y) < func(xn)) {
@@ -114,4 +115,5 @@ std::vector<double> RandomSearch::optimize(const Area<>& area, const Function<>&
         }
     }
     return xn;
+
 }

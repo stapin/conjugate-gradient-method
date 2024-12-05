@@ -9,11 +9,11 @@
 template <typename T = std::vector<double>>
 class OptimizationMethod {
 public:
-    virtual T optimize(const Area<T>& area, const Function<T>& func, const Criterion& criterion) = 0;
+    virtual T optimize(const Rectangle& area, const Function<T>& func, const Criterion& criterion) = 0;
 };
 
 
-class OneDimentionalOptimization : public OptimizationMethod<double> {
+class OneDimentionalOptimization : public OptimizationMethod<> {
     double epsilon;
 
 public:
@@ -21,19 +21,19 @@ public:
         double epsilon = 1e-4
     );
 
-    double optimize(const Area<double>& area, const Function<double>& func, const Criterion& criterion) override;
+    std::vector<double> optimize(const Rectangle& area, const Function<>& func, const Criterion& criterion) override;
 };
 
 class ConjugateGradientMethod : public OptimizationMethod<> {
 public:
-    std::vector<double> optimize(const Area<>& area, const Function<>& func, const Criterion& criterion) override;
+    std::vector<double> optimize(const Rectangle& area, const Function<>& func, const Criterion& criterion) override;
 };
 
 class RandomSearch : public OptimizationMethod<> {
 public:
     RandomSearch(double delta0, double p, size_t max_iters) : 
         delta0(delta0), p(p), max_iters(max_iters) {};
-    std::vector<double> optimize(const Area<>& area, const Function<>& func, const Criterion& criterion) override;
+    std::vector<double> optimize(const Rectangle& area, const Function<>& func, const Criterion& criterion) override;
 
 private:
     double delta0;

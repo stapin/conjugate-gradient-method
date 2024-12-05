@@ -54,20 +54,20 @@ std::shared_ptr<Function<>> QuadraticForm::create_instance() const  {
 AuxiliaryFunction::AuxiliaryFunction(std::vector<double> x, std::vector<double> v, const std::shared_ptr<Function<>>& func) :
     Function(1), x(std::move(x)), v(std::move(v)), func(func) {}
 
-double AuxiliaryFunction::operator()(const double& alpha) const  {
+double AuxiliaryFunction::operator()(const std::vector<double>& alpha) const  {
     std::vector<double> res;
     res.reserve(x.size());
     for (size_t i = 0; i < x.size(); ++i) {
-        res.push_back(x[i] + alpha* v[i]);
+        res.push_back(x[i] + alpha[0]* v[i]);
     }
     return (*func)(res);
 }
 
-double AuxiliaryFunction::get_gradient(const double& alpha) const {
+std::vector<double> AuxiliaryFunction::get_gradient(const std::vector<double>& alpha) const {
     std::vector<double> point;
     point.reserve(x.size());
     for (size_t i = 0; i < x.size(); ++i) {
-        point.push_back(x[i] + alpha* v[i]);
+        point.push_back(x[i] + alpha[0]* v[i]);
     }
     std::vector<double> grad = func->get_gradient(point);
     double res = 0;
@@ -75,7 +75,7 @@ double AuxiliaryFunction::get_gradient(const double& alpha) const {
         res += grad[i] * v[i];
     }
     
-    return res;
+    return std::vector<double>({res});
 };
 
 void AuxiliaryFunction::set_vectors(std::vector<double> x0, std::vector<double> v0) {
@@ -83,35 +83,36 @@ void AuxiliaryFunction::set_vectors(std::vector<double> x0, std::vector<double> 
     v = std::move(v0);
 }
 
-std::shared_ptr<Function<double>> AuxiliaryFunction::create_instance() const {
+std::shared_ptr<Function<>> AuxiliaryFunction::create_instance() const {
     return std::make_shared<AuxiliaryFunction>(*this);
 }
 
 
 Func4::Func4() : Function(1) {}
 
-double Func4::operator()(const double& x) const {
-    return std::sin(x);
+double Func4::operator()(const std::vector<double>& x) const {
+    return std::sin(x[0]);
 }
 
-double Func4::get_gradient(const double& x) const {
-    return std::cos(x);
+std::vector<double> Func4::get_gradient(const std::vector<double>& x) const {
+    return std::vector<double>({std::cos(x[0])});
 }
 
-std::shared_ptr<Function<double>> Func4::create_instance() const {
+std::shared_ptr<Function<>> Func4::create_instance() const {
     return std::make_shared<Func4>(*this);
 }
 
 Poly1::Poly1() : Function(1) {}
-double Poly1::operator()(const double& x) const {
-    return (x - 3.5) * (x + 1) * (x - 1);
+double Poly1::operator()(const std::vector<double>& x) const {
+    
+    return(x[0] - 3.5) * (x[0] + 1) * (x[0] - 1);
 }
 
-double Poly1::get_gradient(const double& x) const {
-    return 3 * x*x - 7 * x - 1;
+std::vector<double> Poly1::get_gradient(const std::vector<double>& x) const {
+    return std::vector<double>({3 * x[0]*x[0] - 7 * x[0] - 1});
 }
 
-std::shared_ptr<Function<double>> Poly1::create_instance() const {
+std::shared_ptr<Function<>> Poly1::create_instance() const {
     return std::make_shared<Poly1>(*this);
 }
 

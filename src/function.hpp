@@ -6,8 +6,7 @@
 #include <iostream>
 #include <cmath>
 #include <string>
-// Будем делать градиент аналитическим, поэтому для каждой функции будем делать класс
-// и переопределять метод с градиентом.
+
 
 template <typename T = std::vector<double>>
 class Function {
@@ -115,7 +114,7 @@ public:
     std::string get_name() const override;
 };
 
-class AuxiliaryFunction : public Function<double> {
+class AuxiliaryFunction : public Function<> {
     std::vector<double> x;
     std::vector<double> v;
     std::shared_ptr<Function<>> func;    
@@ -123,9 +122,9 @@ class AuxiliaryFunction : public Function<double> {
 public:
     AuxiliaryFunction(std::vector<double> x, std::vector<double> v, const std::shared_ptr<Function<>>& func);
 
-    double operator()(const double& alpha) const override;
+    double operator()(const std::vector<double>& alpha) const override;
 
-    double get_gradient(const double& alpha) const override;
+    std::vector<double> get_gradient(const std::vector<double>& alpha) const override;
 
     void set_vectors(std::vector<double> x0, std::vector<double> v0);
 
@@ -135,25 +134,25 @@ public:
 };
 
 
-class Func4 : public Function<double> {
+class Func4 : public Function<> {
 public:
     Func4();
 
-    double operator()(const double& x) const override;
+    double operator()(const std::vector<double>& x) const override;
 
-    double get_gradient(const double& x) const override;
+    std::vector<double> get_gradient(const std::vector<double>& x) const override;
 
     std::shared_ptr<Function> create_instance() const override;
 
     std::string get_name() const override;
 };
 
-class Poly1 : public Function<double> {
+class Poly1 : public Function<> {
 public:
     Poly1();
-    double operator()(const double& x) const override;
+    double operator()(const std::vector<double>& x) const override;
 
-    double get_gradient(const double& x) const override;
+    std::vector<double> get_gradient(const std::vector<double>& x) const override;
 
     std::shared_ptr<Function> create_instance() const override;
 
