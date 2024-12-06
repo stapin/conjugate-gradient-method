@@ -19,9 +19,10 @@ int main() {
     };
 
     Rectangle area(bounds);
-    IterationCriterion criterion(10);
+    IterationCriterion criterion(500);
 
-    ConjugateGradientMethod optim;
+    // ConjugateGradientMethod optim;
+    RandomSearch optim(1., 0.9, 1000);
     std::vector<double> res;
 
     try {
@@ -30,6 +31,7 @@ int main() {
     }
     catch(const std::exception& e) {
         std::cerr << e.what() << '\n';
+        std::cout << e.what() << '\n';
     }
     
 
@@ -40,6 +42,7 @@ int main() {
     for (size_t i = 0; i < res.size(); ++i) {
         std::cout << res[i] << " ";
     }
+    
 
     // OneDimentionalOptimization one_optim;
     // Poly1 f4;

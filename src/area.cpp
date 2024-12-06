@@ -1,4 +1,5 @@
 #include "area.hpp"
+#include <algorithm>
 
 void Interval::set_bounds(double left, double right) {
     bounds = {{left, right}};
@@ -26,9 +27,13 @@ std::vector<double> Rectangle::sample_random_point(std::mt19937& gen) const {
     std::uniform_real_distribution<> dist(0., 1.);
     std::vector<double> res;
     res.reserve(bounds.size());
-    for (size_t i = 0; i < bounds.size(); ++i) {
+    // for (size_t i = 0; i < bounds.size(); ++i) {
+    //     double alpha = dist(gen);
+    //     res.push_back(bounds[i].first + (bounds[i].second - bounds[i].first) * alpha);
+    // }
+    for (auto it = bounds.begin(); it != bounds.end(); ++it) {
         double alpha = dist(gen);
-        res.push_back(bounds[i].first + (bounds[i].second - bounds[i].first) * alpha);
+        res.push_back((*it).first + ((*it).second - (*it).first) * alpha);
     }
     return res;
 } 

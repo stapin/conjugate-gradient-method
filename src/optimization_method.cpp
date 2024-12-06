@@ -97,13 +97,13 @@ std::vector<double> RandomSearch::optimize(const Rectangle& area, const Function
     size_t iters = 0;
     while (!criterion.done(trajectory)) {
         if (iters >= max_iters) break;
-        double alpha = dist(gen);
+        double beta = dist(gen);
         bool neighborhood = false;
-        if (alpha < p) {
-            y = area.sample_random_point(gen);
-        } else {
+        if (beta < p && delta > min_delta) {
             y = area.intersect_rectangle(Cube(xn, delta, true)).sample_random_point(gen);
             neighborhood = true;
+        } else {
+            y = area.sample_random_point(gen);
         }
         if (func(y) < func(xn)) {
             trajectory.push_back(y);
@@ -113,6 +113,7 @@ std::vector<double> RandomSearch::optimize(const Rectangle& area, const Function
         } else {
             ++same_point_counter;
         }
+        ++iters;
     }
     return xn;
 

@@ -33,6 +33,7 @@ public:
             }
             res.push_back(std::pair<double, double>(left, right));
         }
+
         return Rectangle(std::move(res));
     }
 
@@ -58,12 +59,18 @@ public:
         if (a <= 0) throw "Cube can`t have negative or zero side length."; 
         bounds.reserve(x0.size());
         if (neighborhood) {
-            for (size_t i = 0; i < x0.size(); ++i) {
-                bounds[i] = std::pair<double, double>(x0[i] - a/2, x0[i] + a/2);
+            // for (size_t i = 0; i < x0.size(); ++i) {
+            //     bounds.push_back(std::pair<double, double>(x0[i] - a/2, x0[i] + a/2));
+            // }
+            for (auto it = x0.begin(); it < x0.end(); ++it) {
+                bounds.push_back(std::pair<double, double>(*it - a/2, *it + a/2));
             }
         } else {
-            for (size_t i = 0; i < x0.size(); ++i) {
-                bounds[i] = std::pair<double, double>(x0[i], x0[i] + a);
+            // for (size_t i = 0; i < x0.size(); ++i) {
+            //     bounds.push_back(std::pair<double, double>(x0[i], x0[i] + a));
+            // }
+            for (auto it = x0.begin(); it < x0.end(); ++it) {
+                bounds.push_back(std::pair<double, double>(*it, *it + a));
             }
         }
     }
