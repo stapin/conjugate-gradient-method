@@ -1,5 +1,6 @@
 #include <iostream>
 #include "optimization_method.hpp"
+#include "optim_method_cli.hpp"
 
 
 
@@ -25,23 +26,23 @@ int main() {
     RandomSearch optim(1., 0.9, 1000);
     std::vector<double> res;
 
-    try {
-        res = optim.optimize(area, func, criterion);
+    // try {
+    //     res = optim.optimize(area, func, criterion);
         
-    }
-    catch(const std::exception& e) {
-        std::cerr << e.what() << '\n';
-        std::cout << e.what() << '\n';
-    }
+    // }
+    // catch(const std::exception& e) {
+    //     std::cerr << e.what() << '\n';
+    //     std::cout << e.what() << '\n';
+    // }
     
 
-    std::cout << "size: " << res.size() << "\n";
-    std::cout << "dim: " << func.get_dim() << "\n";
-    //std::cout << "vec: " << A.size() << "\n";
+    // std::cout << "size: " << res.size() << "\n";
+    // std::cout << "dim: " << func.get_dim() << "\n";
+    // //std::cout << "vec: " << A.size() << "\n";
 
-    for (size_t i = 0; i < res.size(); ++i) {
-        std::cout << res[i] << " ";
-    }
+    // for (size_t i = 0; i < res.size(); ++i) {
+    //     std::cout << res[i] << " ";
+    // }
     
 
     // OneDimentionalOptimization one_optim;
@@ -49,6 +50,9 @@ int main() {
     // Interval interval(-4, 4);
     // double ans = one_optim.optimize(interval, f4, criterion);
     // std::cout << "one dim opt: " << ans << "\n"; 
+
+    OptimMethodCLI cli;
+    cli.start();
 
     return 0;
 }

@@ -29,7 +29,10 @@ std::vector<double> ConjugateGradientMethod::optimize(
 {
     std::random_device device;
     std::mt19937 gen(device());
-    std::vector<double> x0 = area.sample_random_point(gen);
+    std::vector<double> x0 = starting_point;
+    if (starting_point.size() == 0) {
+        x0 = area.sample_random_point(gen);
+    }
 
     std::vector<double> xn = x0;
     std::vector<double> p0 = func.get_gradient(x0);
@@ -76,6 +79,9 @@ std::vector<double> ConjugateGradientMethod::optimize(
         }
 
     }
+    best_params.minimum_point = xn;
+    best_params.iter_number = trajectory.size();
+    best_params.minimum_value = func(xn);
 
     return xn;
 }
@@ -85,7 +91,10 @@ std::vector<double> RandomSearch::optimize(const Rectangle& area, const Function
     std::mt19937 gen(device());
     std::uniform_real_distribution<double> dist(0., 1.);
 
-    std::vector<double> xn = area.sample_random_point(gen);
+    std::vector<double> xn = starting_point;
+    if (starting_point.size() == 0) {
+        xn = area.sample_random_point(gen);
+    }
     
     //const std::vector<std::pair<double, double>>& D_bounds = area.get_bounding_box();
     std::vector<double> y;
@@ -115,6 +124,10 @@ std::vector<double> RandomSearch::optimize(const Rectangle& area, const Function
         }
         ++iters;
     }
+    best_params.iter_number = iters;
+    best_params.minimum_point = xn;
+    best_params.minimum_value = func(xn);
+
     return xn;
 
 }

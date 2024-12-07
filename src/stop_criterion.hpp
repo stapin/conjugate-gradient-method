@@ -5,6 +5,8 @@
 
 class Criterion {
 public:
+    virtual ~Criterion() = default;
+
     virtual bool done(const std::vector<std::vector<double>>& trajectory) const = 0;
     virtual std::string get_name() const = 0;
 };

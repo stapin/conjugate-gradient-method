@@ -1,7 +1,5 @@
-.vscode/**
 .vscode/
 **.exe
-output/**
 output/
 dir/
 build/
