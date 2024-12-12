@@ -3,6 +3,11 @@
 #include "optimization_method.hpp"
 #include <memory>
 
+/**
+ * @brief Implements cli for optimization for custom functions,
+ * areas and criterions.
+ * 
+ */
 class OptimMethodCLI {
 private:
     bool running;
@@ -45,6 +50,10 @@ public:
     OptimMethodCLI();
     ~OptimMethodCLI() = default;
 
+    /**
+     * @brief Starts CLI for function optimization.
+     * 
+     */
     void start() {
         init_params();
         while (running)

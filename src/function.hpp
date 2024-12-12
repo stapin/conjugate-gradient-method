@@ -7,7 +7,11 @@
 #include <cmath>
 #include <string>
 
-
+/**
+ * @brief Base class for all functions
+ * 
+ * @tparam T arbitrary vector space
+ */
 template <typename T = std::vector<double>>
 class Function {
 protected:
@@ -19,6 +23,11 @@ public:
     virtual size_t get_dim() const {return dim;};
     virtual double operator()(const T& x) const = 0;
     virtual T get_gradient(const T& x) const = 0;
+    /**
+     * @brief Creates shared_ptr of current object to base class
+     * 
+     * @return std::shared_ptr<Function> 
+     */
     virtual std::shared_ptr<Function> create_instance() const = 0;
     virtual std::string get_name() const = 0;
 };
