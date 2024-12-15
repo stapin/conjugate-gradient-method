@@ -9,6 +9,7 @@ OptimMethodCLI::OptimMethodCLI() : running(true) {
 }
 
 void OptimMethodCLI::start() {
+    std::cout << "FUNCTION OPTIMIZATION CLI.\n\n";
     init_params();
     while (running)
     {
@@ -36,8 +37,7 @@ void OptimMethodCLI::start() {
 }
 
 void OptimMethodCLI::print_current_params() {
-    std::cout << "Function Optimization CLI.\n";
-    std::cout << "Current parameters:\n";
+    std::cout << "\nCurrent parameters:\n";
     std::cout << "1) Function: " << curr_func->get_name() << "\n";
     std::cout << "2) Area: ";
     print_area();
@@ -49,7 +49,7 @@ void OptimMethodCLI::print_current_params() {
 }
 
 void OptimMethodCLI::print_action_selection() {
-    std::cout << "Choose action:\n";
+    std::cout << "\nChoose action:\n";
     std::cout << "1) Change function\n";
     std::cout << "2) Change area\n";
     std::cout << "3) Change stop criterion\n";
@@ -150,12 +150,14 @@ void OptimMethodCLI::start_optim_menu() {
     curr_method->set_starting_point(curr_starting_point);
     curr_method->optimize(*curr_area, *curr_func, *curr_criterion);
     BestParams best_params = curr_method->get_best_params();
+    std::cout << "\n---- Optimization results ----\n";
     std::cout << "Minimum point: ";
     for (size_t i = 0; i < best_params.minimum_point.size(); ++i) {
         std::cout << best_params.minimum_point[i] << " ";
     }
     std::cout << "\nMinimum value: " << best_params.minimum_value << "\n";
     std::cout << "Iteration number: " << best_params.iter_number << "\n";
+    std::cout << "---------------------------------\n";
 
 }
 
