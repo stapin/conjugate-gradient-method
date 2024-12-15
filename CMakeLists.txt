@@ -10,6 +10,8 @@ set(SRC_LIST
     src/function.hpp
     src/optimization_method.hpp
     src/optimization_method.cpp
+    src/optim_method_cli.hpp
+    src/optim_method_cli.cpp
     src/stop_criterion.hpp
     src/stop_criterion.cpp
     src/Vector.hpp
