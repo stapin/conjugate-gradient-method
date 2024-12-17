@@ -4,6 +4,11 @@ OptimMethodCLI::OptimMethodCLI() : running(true) {
     functions.push_back(std::make_shared<Func1>());
     functions.push_back(std::make_shared<Func2>());
     functions.push_back(std::make_shared<Func3>());
+    functions.push_back(std::make_shared<RavineFunction>());
+    functions.push_back(std::make_shared<Func3dim1>());
+    functions.push_back(std::make_shared<Func3dim2>());
+    functions.push_back(std::make_shared<Func4dim2>());
+    functions.push_back(std::make_shared<Func4dim1>());
 
     curr_func = functions[0];
 }

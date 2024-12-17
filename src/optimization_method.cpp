@@ -101,7 +101,6 @@ std::vector<double> RandomSearch::optimize(const Rectangle& area, const Function
     double delta = delta0;
     std::vector<std::vector<double>> trajectory;
     trajectory.push_back(xn);
-    size_t same_point_counter = 0;
 
     size_t iters = 0;
     while (!criterion.done(trajectory)) {
@@ -118,9 +117,6 @@ std::vector<double> RandomSearch::optimize(const Rectangle& area, const Function
             trajectory.push_back(y);
             xn = y;
             if (neighborhood) delta = alpha * delta;
-            same_point_counter = 0;
-        } else {
-            ++same_point_counter;
         }
         ++iters;
     }

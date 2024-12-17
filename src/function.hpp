@@ -167,3 +167,63 @@ public:
 
     std::string get_name() const override;
 };
+
+class RavineFunction : public Function<> {
+public:
+    RavineFunction();
+    double operator()(const std::vector<double>& x) const override;
+
+    std::vector<double> get_gradient(const std::vector<double>& x) const override;
+
+    std::shared_ptr<Function> create_instance() const override;
+
+    std::string get_name() const override;
+};
+
+class Func3dim1 : public Function<> {
+public:
+    Func3dim1();
+    double operator()(const std::vector<double>& x) const override;
+
+    std::vector<double> get_gradient(const std::vector<double>& x) const override;
+
+    std::shared_ptr<Function> create_instance() const override;
+
+    std::string get_name() const override;
+};
+
+class Func3dim2 : public Function<> {
+public:
+    Func3dim2();
+    double operator()(const std::vector<double>& x) const override;
+
+    std::vector<double> get_gradient(const std::vector<double>& x) const override;
+
+    std::shared_ptr<Function> create_instance() const override;
+
+    std::string get_name() const override;
+};
+
+class Func4dim1 : public Function<> {
+public:
+    Func4dim1();
+    double operator()(const std::vector<double>& x) const override;
+
+    std::vector<double> get_gradient(const std::vector<double>& x) const override;
+
+    std::shared_ptr<Function> create_instance() const override;
+
+    std::string get_name() const override;
+};
+
+class Func4dim2 : public Function<> {
+public:
+    Func4dim2();
+    double operator()(const std::vector<double>& x) const override;
+
+    std::vector<double> get_gradient(const std::vector<double>& x) const override;
+
+    std::shared_ptr<Function> create_instance() const override;
+
+    std::string get_name() const override;
+};

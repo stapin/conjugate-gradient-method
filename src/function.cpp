@@ -116,6 +116,92 @@ std::shared_ptr<Function<>> Poly1::create_instance() const {
     return std::make_shared<Poly1>(*this);
 }
 
+RavineFunction::RavineFunction() : Function(2) {};
+
+double RavineFunction::operator()(const std::vector<double>& x) const {
+    return 4 * x[0] * x[0];
+}
+
+std::vector<double> RavineFunction::get_gradient(const std::vector<double>& x) const {
+    return {8 * x[0], 0};
+}
+
+std::shared_ptr<Function<>> RavineFunction::create_instance() const {
+    return std::make_shared<RavineFunction>(*this);
+}
+
+Func3dim1::Func3dim1() : Function(3) {};
+
+double Func3dim1::operator()(const std::vector<double>& x) const {
+    return std::sin(x[0]) + std::sin(x[1]) + std::sin(x[2]);
+}
+
+std::vector<double> Func3dim1::get_gradient(const std::vector<double>& x) const {
+    return {std::cos(x[0]), std::cos(x[1]), std::cos(x[2])};
+}
+
+std::shared_ptr<Function<>> Func3dim1::create_instance() const {
+    return std::make_shared<Func3dim1>(*this);
+}
+
+Func3dim2::Func3dim2() : Function(3) {};
+
+double Func3dim2::operator()(const std::vector<double>& x) const {
+    return std::pow((x[0] - 0.5), 2) + std::pow(x[1] + 0.5, 2) + x[2] * x[2];
+}
+
+std::vector<double> Func3dim2::get_gradient(const std::vector<double>& x) const {
+    return {2 * x[0] - 1, 2 * x[1] - 1, 2 * x[2]};
+}
+
+std::shared_ptr<Function<>> Func3dim2::create_instance() const {
+    return std::make_shared<Func3dim2>(*this);
+}
+
+Func4dim2::Func4dim2() : Function(4) {};
+
+double Func4dim2::operator()(const std::vector<double>& x) const {
+    return std::pow((x[0] - 0.5), 2) + std::pow(x[1] + 0.5, 2) + x[2] * x[2] - std::pow(x[3] - 0.2, 2);
+}
+
+std::vector<double> Func4dim2::get_gradient(const std::vector<double>& x) const {
+    return {2 * x[0] - 1, 2 * x[1] - 1, 2 * x[2], 2 * x[3] - 0.4};
+}
+
+std::shared_ptr<Function<>> Func4dim2::create_instance() const {
+    return std::make_shared<Func4dim2>(*this);
+}
+
+Func4dim1::Func4dim1() : Function(4) {};
+
+double Func4dim1::operator()(const std::vector<double>& x) const {
+    return std::sin(x[0]) + std::sin(x[1]) + std::sin(x[2]) + std::sin(x[3]);
+}
+
+std::vector<double> Func4dim1::get_gradient(const std::vector<double>& x) const {
+    return {std::cos(x[0]), std::cos(x[1]), std::cos(x[2]), std::cos(x[3])};
+}
+
+std::shared_ptr<Function<>> Func4dim1::create_instance() const {
+    return std::make_shared<Func4dim1>(*this);
+}
+
+std::string Func4dim1::get_name() const {
+    return "sin(x) + sin(y) + sin(z) + sin(w)";
+}
+
+std::string Func4dim2::get_name() const {
+    return "(x - 0.5)^2 + (y - 0.5)^2 + z^2 + (w - 0.2)^2";
+}
+
+std::string Func3dim1::get_name() const {
+    return "sin(x) + sin(y) + sin(z)";
+}
+
+std::string Func3dim2::get_name() const {
+    return "(x - 0.5)^2 + (y - 0.5)^2 + z^2";
+}
+
 std::string LinearFunction::get_name() const {
     return "Arbitrary linear f  unction";
 }
@@ -146,4 +232,8 @@ std::string Func4::get_name() const {
 
 std::string Poly1::get_name() const {
     return "(x - 3.5)(x - 1)(x + 1)";
+}
+
+std::string RavineFunction::get_name() const {
+    return "(2x)^2";
 }
