@@ -257,7 +257,7 @@ void OptimMethodCLI::func_menu() {
         std::cout << i+1 << ") " << functions[i]->get_name() << "\n";
     }
     int choice;
-    validate_uint_input(choice, functions.size());
+    validate_uint_input(choice, static_cast<int>(functions.size()));
     set_func(choice);
 }
 

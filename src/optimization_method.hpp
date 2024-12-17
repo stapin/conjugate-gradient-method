@@ -17,6 +17,12 @@ struct BestParams {
     size_t iter_number;
 };
 
+
+/**
+ * @brief Base abstract class for all optimization methods.
+ * 
+ * @tparam T arbitrary vector space
+ */
 template <typename T = std::vector<double>>
 class OptimizationMethod {
 public:
@@ -51,7 +57,10 @@ protected:
     BestParams best_params;
 };
 
-
+/**
+ * @brief Implements binary search optimization of one dimentional function
+ * 
+ */
 class OneDimentionalOptimization : public OptimizationMethod<> {
     double epsilon;
 
@@ -67,6 +76,10 @@ public:
     }
 };
 
+/**
+ * @brief Implements conjugate gradient method
+ * 
+ */
 class ConjugateGradientMethod : public OptimizationMethod<> {
 public:
     std::vector<double> optimize(const Rectangle& area, const Function<>& func,
@@ -76,6 +89,10 @@ public:
     }
 };
 
+/**
+ * @brief Implements random search optimization method
+ * 
+ */
 class RandomSearch : public OptimizationMethod<> {
 public:
 
