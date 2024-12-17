@@ -151,7 +151,7 @@ double Func3dim2::operator()(const std::vector<double>& x) const {
 }
 
 std::vector<double> Func3dim2::get_gradient(const std::vector<double>& x) const {
-    return {2 * x[0] - 1, 2 * x[1] - 1, 2 * x[2]};
+    return {2 * x[0] - 1, 2 * x[1] + 1, 2 * x[2]};
 }
 
 std::shared_ptr<Function<>> Func3dim2::create_instance() const {
@@ -165,7 +165,7 @@ double Func4dim2::operator()(const std::vector<double>& x) const {
 }
 
 std::vector<double> Func4dim2::get_gradient(const std::vector<double>& x) const {
-    return {2 * x[0] - 1, 2 * x[1] - 1, 2 * x[2], 2 * x[3] - 0.4};
+    return {2 * x[0] - 1, 2 * x[1] + 1, 2 * x[2], 2 * x[3] - 0.4};
 }
 
 std::shared_ptr<Function<>> Func4dim2::create_instance() const {
@@ -191,7 +191,7 @@ std::string Func4dim1::get_name() const {
 }
 
 std::string Func4dim2::get_name() const {
-    return "(x - 0.5)^2 + (y - 0.5)^2 + z^2 + (w - 0.2)^2";
+    return "(x - 0.5)^2 + (y + 0.5)^2 + z^2 + (w - 0.2)^2";
 }
 
 std::string Func3dim1::get_name() const {
@@ -199,7 +199,7 @@ std::string Func3dim1::get_name() const {
 }
 
 std::string Func3dim2::get_name() const {
-    return "(x - 0.5)^2 + (y - 0.5)^2 + z^2";
+    return "(x - 0.5)^2 + (y + 0.5)^2 + z^2";
 }
 
 std::string LinearFunction::get_name() const {

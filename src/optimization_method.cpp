@@ -27,6 +27,10 @@ std::vector<double> ConjugateGradientMethod::optimize(
     const Criterion& criterion
 ) 
 {
+    if (!(starting_point.size() == func.get_dim() && func.get_dim() == area.get_dim())) {
+        throw std::invalid_argument("Optimizaton method got incompatible dimentions.");
+    }
+
     std::random_device device;
     std::mt19937 gen(device());
     std::vector<double> x0 = starting_point;
@@ -87,6 +91,10 @@ std::vector<double> ConjugateGradientMethod::optimize(
 }
 
 std::vector<double> RandomSearch::optimize(const Rectangle& area, const Function<>& func, const Criterion& criterion) {
+    if (!(starting_point.size() == func.get_dim() && func.get_dim() == area.get_dim())) {
+        throw std::invalid_argument("Optimizaton method got incompatible dimentions.");
+    }
+
     std::random_device device;
     std::mt19937 gen(device());
     std::uniform_real_distribution<double> dist(0., 1.);
@@ -127,3 +135,12 @@ std::vector<double> RandomSearch::optimize(const Rectangle& area, const Function
     return xn;
 
 }
+
+RandomSearch::RandomSearch(double delta0, double p, size_t max_iters, 
+                           double alpha, double min_delta) : 
+        delta0(delta0), p(p), max_iters(max_iters), 
+        min_delta(min_delta), alpha(alpha) {};
+
+std::string RandomSearch::get_name() const {
+        return "Random search";
+    }

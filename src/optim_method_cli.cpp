@@ -18,9 +18,9 @@ void OptimMethodCLI::start() {
     init_params();
     while (running)
     {
-        print_current_params();
-        print_action_selection();
         while (true) {
+            print_current_params();
+            print_action_selection();
             try {
                 int choice;
                 if (std::cin >> choice) {
@@ -32,7 +32,7 @@ void OptimMethodCLI::start() {
             }
             catch(const std::exception& e)
             {
-                std::cerr << e.what() << '\n';
+                std::cerr << "!!!" << e.what() << '\n';
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
@@ -117,6 +117,11 @@ void OptimMethodCLI::make_choice(int choice) {
 }
 
 void OptimMethodCLI::starting_point_menu() {
+    std::vector<std::pair<double, double>> bounds = curr_area->get_bounding_box();
+    if (bounds.size() != curr_func->get_dim()) {
+        throw std::invalid_argument("Bounds and function have incompatible dimentions.");
+    }
+
     bool end = false;
     while (!end) {
         end = true;
@@ -124,7 +129,6 @@ void OptimMethodCLI::starting_point_menu() {
         std::cout << "Example: 3.5 -1 0.1\n";
         curr_starting_point.clear();
         curr_starting_point.resize(curr_func->get_dim());
-        std::vector<std::pair<double, double>> bounds = curr_area->get_bounding_box();
         for (size_t i = 0; i < curr_func->get_dim(); ++i) {
             try {
                 if (std::cin >> curr_starting_point[i]) {

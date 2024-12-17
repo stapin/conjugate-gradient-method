@@ -105,13 +105,10 @@ public:
      * @param alpha helps to compute delta_n = alpha * delta_{n-1}
      * @param min_delta minimum radius for neighborhood
      */
-    RandomSearch(double delta0, double p, size_t max_iters, double alpha=0.9, double min_delta=1e-2) : 
-        delta0(delta0), p(p), max_iters(max_iters), min_delta(min_delta), alpha(alpha) {};
+    RandomSearch(double delta0, double p, size_t max_iters, double alpha=0.9, double min_delta=1e-2);
     std::vector<double> optimize(const Rectangle& area, const Function<>& func,
         const Criterion& criterion) override;
-    std::string get_name() const override {
-        return "Random search";
-    }
+    std::string get_name() const override;
 
 private:
     double delta0;
