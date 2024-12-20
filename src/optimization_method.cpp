@@ -75,8 +75,9 @@ std::vector<double> ConjugateGradientMethod::optimize(
             numerator += fn1_grad[i] * fn1_grad[i];
             denominator += fn_grad[i] * fn_grad[i];
         }
-
+        if (denominator < 1e-8 || numerator < 1e-10) break;
         double beta = numerator / denominator;
+
 
         for (size_t i = 0; i < pn.size(); ++i) {
             pn[i] = -fn1_grad[i] + beta * pn[i];
